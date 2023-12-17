@@ -1,0 +1,33 @@
+<%- include('includes/head'); %>
+<%- include('includes/nav'); %>
+
+<section class="div-conteudo">
+  <div class="div-login">
+    
+    <div id="id-flash-messages" class="flash-messages">
+      <%- include('includes/messages') %>
+    </div>
+
+    <div class="formulario">
+      <form method="post" action="/login/login" class="form-login">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="form-row">
+          <div class="mb-3">
+            <label>Email</label>
+            <input type="text" class="form-control" placeholder="Email" required name="email">
+          </div>
+          <div class="mb-3">
+            <label>Senha</label>
+            <input type="password" class="form-control" placeholder="Senha" required name="password">
+          </div>
+        </div>
+        <button class="btn btn-primary btn-completo mb-3" type="submit">Logar</button>
+    </form>
+    <a href="/cadastro" style="text-decoration: none;">
+      <button type="button" class="btn btn-secondary btn-completo">Criar conta</button>
+    </a>  
+    </div>
+  </div>
+</section>
+
+<%- include('includes/footer'); %>

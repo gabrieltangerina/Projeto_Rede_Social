@@ -1,0 +1,147 @@
+<%- include('includes/head'); %>
+  <%- include('includes/nav'); %>
+
+    <%- include('includes/messages') %>
+    <div class="container container-grupos">
+      <div class="formulario-postagem col-md-6">
+        <form action="/postagem/postar" method="post" class="form-postagem" enctype="multipart/form-data">
+          <input type="hidden" name="autor" value="<%= user.nome %> <%= user.sobrenome %>">
+          <input type="hidden" name="grupo" value="<%= user.grupo %>">
+
+          <div class="form-group row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Título</label>
+            <div class="col-sm-10 mb-4">
+              <input type="text" class="form-control" id="inputPassword" placeholder="Titulo da postagem" name="titulo">
+            </div>
+            <div class="col-sm-10">
+              <input type="file" name="files" multiple class="mb-4">
+            </div>
+          </div>
+          <div class="form-group row mb-4">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Descrição</label>
+            <div class="col-sm-10 mv-4">
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                placeholder="Descrição da postagem" name="descricao"></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary botao">
+            <p class="texto-botao">Publicar</p>
+          </button>
+        </form>
+      </div>
+      <div class="formulario-postagem col-md-6">
+            <h3 class="d-flex align-items-center justify-content-center"><%= user.grupo %></h3>
+            <label for="inputPassword" class="col-sm-2 col-form-label" >Descrição do grupo</label>
+            <div class="form-group row mb-4 d-flex">
+              <div class="col-sm-10 mv-4">
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                  placeholder="Descrição da postagem" name="descricao-grupo"></textarea>
+              </div>
+            </div>  
+      </div>
+    </div>
+
+
+      <h1 class="titulo-introducao" style="margin-top: 15vh ;">Postagens do grupo <%= user.grupo %>
+      </h1>
+      <% postagensGrupo.forEach((postagem, index)=> { %>
+        <section class="postagem">
+          <div class="imagens">
+            <div id="carouselExample<%= index %>" class="carousel slide">
+              <div class="carousel-inner">
+                <% let contador=0; %>
+                  <% postagem.imagem.forEach((imagem)=> { %>
+                    <% const carouselClass=contador===0 ? 'active' : '' ; %>
+                      <div class="carousel-item <%= carouselClass %>">
+                        <img src="../../uploads/<%= imagem.url %>" alt="" srcset="" class="imagem-conteudo img">
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample<%= index %>"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample<%= index %>"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                      <% contador++; %>
+                        <% }) %>
+              </div>
+            </div>
+          </div>
+          <div class="texto-postagem">
+            <h5 class="titulo-postagem">
+              <%= postagem.titulo %>
+            </h5>
+            <div class="descricao" id="descricaoTexto">
+              <p class="card-text">
+                <%= postagem.descricao %>
+              </p>
+            </div>
+            <!-- DIV DOS COMENTÁRIOS -->
+            <div class="d-flex justify-content-between rodape-postagem">
+              <p class="card-text"><small class="text-muted">Autor: <%= postagem.autor %></small></p>
+              <% const data=new Date(postagem.criadoEm); %>
+
+                <p class="card-text">
+                  <small class="text-muted">
+                    Publicado em: <%= data.getDate() %>/<%= data.getMonth() + 1 %>/<%= data.getFullYear() %>
+                  </small>
+                </p>
+            </div>
+          </div>
+          <% if (postagem.comentarios && postagem.comentarios.length> 0) { %>
+            <div class="conteudo-comentarios">
+              <% postagem.comentarios.forEach((comentario)=> { %>
+                <div class="comentario d-flex justify-content-between">
+                  <p class="autor-comentario"><strong>
+                      <%= comentario.autor %> diz:
+                    </strong>
+                    <%= comentario.texto %>
+                  </p>
+                  <a href="/postagem/comentario/<%= postagem._id %>/<%= comentario._id %>">
+                    <button class="btn btn-danger">
+                        Apagar comentário
+                    </button>
+                  </a>
+                </div>
+                <% }); %>
+            </div>
+            <% } %>
+              </div>
+              <p class="card-text"><small class="text-muted">Atualizados 3 minutos atrás</small></p>
+              <div class="botoes-config">
+                <div class="botao-editar">
+                  <a href="/postagem/editar/<%= postagem._id %>">
+                    <button type="button" class="btn btn-info">Editar</button>
+                  </a>
+                </div>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  Excluir postagem
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Excluir postagem</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        Tem certeza que deseja excluir essa postagem?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <a href="/postagem/delete/><%= postagem._id %>"></a>
+                        <button type="button" class="btn btn-danger">Excluir</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </section>
+        <% }) %>
+
+          <%- include('includes/footer'); %>

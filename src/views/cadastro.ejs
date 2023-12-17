@@ -1,0 +1,63 @@
+<%- include('includes/head'); %>
+  <%- include('includes/nav'); %>
+
+    <div id="id-flash-messages" class="flash-messages">
+      <%- include('includes/messages') %>
+    </div>
+
+      <div class="formulario formulario-cadastro">
+        <form method="post" action="/cadastro/cadastrar" class="form-cadastro">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="form-row">
+            <div class="mb-3">
+              <label>Primeiro nome</label>
+              <input type="text" class="form-control" placeholder="Nome" value="" required name="nome">
+            </div>
+            <div class="mb-3">
+              <label>Sobrenome</label>
+              <input type="text" class="form-control" placeholder="Sobrenome" required name="sobrenome">
+            </div>
+            <div class="mb-3">
+              <% if(mensagem){ %>
+                <label>Email</label>
+                <input type="text" class="form-control is-invalid" placeholder="Email" required name="email">  
+                <div class="invalid-feedback">
+                    <%= mensagem %>
+                </div>
+              <% }else{ %>
+                <label>Email</label>
+                <input type="text" class="form-control" placeholder="Email" required name="email">
+              <% } %>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="mb-3">
+              <label>Senha</label>
+              <input type="password" class="form-control" placeholder="Senha" required name="password">
+            </div>
+            <div class=" mb-3">
+              <label>Confirmar senha</label>
+              <input type="password" class="form-control" placeholder="Confirmar senha" required name="confirmPassword">
+            </div>
+            <div class=" mb-3">
+              <label>Informe seu grupo</label>
+              <select class="form-control" id="inputGrupo" name="grupo">
+                <option value="Nenhum">Nenhum</option>
+                <option value="Grupo A">Grupo A</option>
+                <option value="Grupo B">Grupo B</option>
+                <option value="Grupo C">Grupo C</option>
+                <option value="Grupo D">Grupo D</option>
+                <option value="Grupo E">Grupo E</option>
+                <option value="Grupo F">Grupo F</option>
+              </select>
+            </div>
+            <div class="inputSenha  mb-3">
+              <input type="text" class="form-control " id="inputSenhaGrupo" name="senhaGrupo" style="display: none;">
+            </div>          
+          </div>
+          <button class="btn btn-primary d-flex mx-auto  justify-content-center" type="submit">Cadastrar</button>
+        </form>
+      </div>
+
+
+    <%- include('includes/footer'); %>

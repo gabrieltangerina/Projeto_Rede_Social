@@ -1,0 +1,230 @@
+<%- include('includes/head'); %>
+  <%- include('includes/nav'); %>
+
+    <body>
+      <%- include('includes/messages') %>
+
+
+        <section class="section-conteudo">
+          <div class="filtros">
+            <h4 class="titulo-filtro">Filtrar grupos</h4>
+            <p class="descricao-filtro">Selecione o grupo para ver postagens específicas</p>
+            <div class="opcoes-filtro">
+              <p class="filtro-grupo btn-todos">Todos</p>
+              <p class="filtro-grupo">Grupo A</p>
+              <p class="filtro-grupo">Grupo B</p>
+              <p class="filtro-grupo">Grupo C</p>
+              <p class="filtro-grupo">Grupo D</p>
+              <p class="filtro-grupo">Grupo E</p>
+              <p class="filtro-grupo">Grupo F</p>
+            </div>
+          </div>
+          <% todasPostagens.forEach((postagem, index)=> { %>
+            <section class="postagem">
+              <div class="imagens">
+                <div id="carouselExample<%= index %>" class="carousel slide">
+                  <div class="carousel-inner">
+                    <% let contador=0; %>
+                      <% postagem.imagem.forEach((imagem)=> { %>
+                        <% const carouselClass=contador===0 ? 'active' : '' ; %>
+                          <div class="carousel-item <%= carouselClass %>">
+                            <img src="../../uploads/<%= imagem.url %>" alt="" srcset="" class="imagem-conteudo img">
+                          </div>
+                          <button class="carousel-control-prev" type="button"
+                            data-bs-target="#carouselExample<%= index %>" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                          </button>
+                          <button class="carousel-control-next" type="button"
+                            data-bs-target="#carouselExample<%= index %>" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                          </button>
+                          <% contador++; %>
+                            <% }) %>
+                  </div>
+                </div>
+              </div>
+              <div class="interacoes">
+                <div class="botao-curtir">
+                  <!-- CURTIDA -->
+                  <% if(user){ %>
+                    <% if(jaCurtiu && jaCurtiu[index]){ %>
+                      <button type="button" class="btn btn-success mr-10">Curtido (<%= postagem.curtidas.quantidade %>)
+                      </button>
+                      <% }else{ %>
+                        <form action="/curtida/<%= postagem._id %>/<%= user.nome %> <%= user.sobrenome %>" method="post"
+                          class="form-curtida">
+                          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                          <input type="hidden" name="user" value="<%= user.nome %> <%= user.sobrenome %>">
+                          <button type="submit" class="btn mr-10">
+                            <p class="btn-interacao grupo">
+                              Curtir (<%= postagem.curtidas.quantidade %>)
+                            </p>
+                          </button>
+                        </form>
+                        <% } %>
+                          <%}else{ %>
+                            <button type="button" class="btn mr-10">
+                              <p class="btn-interacao grupo" id="botao-curtidas">
+                                Curtidas (<%= postagem.curtidas.quantidade %>)
+                              </p>
+                            </button>
+                            <% } %>
+                </div>
+                <div class="botao-comentar">
+                  <button type="button" class="btn botaoChat">
+                    <p class="btn-interacao grupo">
+                      Comentários
+                    </p>
+                  </button>
+                </div>
+                <div class="botao-grupo">
+                  <button class="btn">
+                    <p class="btn-interacao grupo">
+                      <%= postagem.grupo %>
+                    </p>
+                  </button>
+                </div>
+              </div>
+              <div class="texto-postagem">
+                <h5 class="titulo-postagem">
+                  <%= postagem.titulo %>
+                </h5>
+                <div class="descricao" id="descricaoTexto">
+                  <p class="card-text">
+                    <%= postagem.descricao %>
+                  </p>
+                </div>
+                <!-- DIV DOS COMENTÁRIOS -->
+                <div class="feedback transparente">
+                  <div class="container-botao-fechar">
+                    <div class="div-btn">
+                      <button type="button" class="btn-close btn-fechar" aria-label="Close"></button>
+                    </div>
+                  </div>
+                  <% if (postagem.comentarios && postagem.comentarios.length> 0) { %>
+                    <div class="conteudo-comentarios">
+                      <% postagem.comentarios.forEach((comentario)=> { %>
+                        <div class="comentario">
+                          <p class="autor-comentario"><strong>
+                              <%= comentario.autor %> diz:
+                            </strong></p>
+                          <p>
+                            <%= comentario.texto %>
+                          </p>
+                        </div>
+                        <% }); %>
+                    </div>
+                    <% }else{ %>
+                      <div class="conteudo-comentarios">
+                        <div class="comentario">
+                          <p class="autor-comentario"
+                            style="text-align: center; justify-content: center; margin:0 auto;">
+                            <strong>Não há
+                              comentários no momento</strong>
+                          </p>
+                        </div>
+                      </div>
+                      <% } %>
+                        <div class="input-comentario fixed-bottom">
+                          <% if(user){ %>
+                            <form action="/comentario/<%= postagem._id %>" class="form-comentario" method="post">
+                              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                              <input type="hidden" name="autor" value="<%= user.nome %> <%= user.sobrenome %>"
+                                style="position: absolute;">
+                              <input type="text" class="form-control input-comentario mr-10" id="input-comentario"
+                                placeholder="Adicionar um comentário..." name="comentario">
+                              <button type="submit" class="btn btn-primary botao">
+                                <p class="texto-botao">Comentar</p>
+                              </button>
+                              <% } else{ %>
+                                <input type="text" class="form-control" placeholder="Faça login para comentar" disabled>
+                                <% } %>
+                            </form>
+                        </div>
+                </div>
+                <div class="d-flex justify-content-between rodape-postagem">
+                  <p class="card-text"><small class="text-muted">Autor: <%= postagem.autor %></small></p>
+                  <% const data=new Date(postagem.criadoEm); %>
+
+                    <p class="card-text">
+                      <small class="text-muted">
+                        Publicado em: <%= data.getDate() %>/<%= data.getMonth() + 1 %>/<%= data.getFullYear() %>
+                      </small>
+                    </p>
+                </div>
+              </div>
+            </section>
+            <% }) %>
+        </section>
+
+        <div id="area-projeto">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <h3 class="main-tittle">Sobre o projeto</h3>
+              </div>
+              <div class="col-md-6 d-flex align-items-center justify-content-center">
+                <img class="img-fluid" src="../../uploads/img/IFSP-VTP-Logo-Color-2.png" alt="imagem ifsp" style="margin: auto;">
+            </div>
+            <div class="col-md-6 align-items-center justify-content-center">
+                  <h3 class="about-tittle">Disciplina</h3>
+                  <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Libero dicta molestiae modi rem vero delectus excepturi reiciendis, asperiores pariatur quas quos quo sequi maxime consequuntur? Optio doloribus nemo quam. Consequuntur?</p>
+                  <h3>Dificuldades</h3>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum accusamus ipsa, dolores eius aliquid quo consequuntur, nesciunt aliquam fugit, rerum placeat incidunt. Obcaecati, a vel. Consequatur ipsa eaque porro molestiae.</p>
+                  <h3>Necessidade</h3>
+                  <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam voluptate aspernatur, porro laudantium architecto rerum dolores, molestias sequi incidunt ad voluptatem officia veritatis quidem pariatur ut ratione, molestiae odio optio.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="area-grupos">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <h3 class="main-tittle">
+                  Sobre os grupos
+                </h3>
+              </div>
+              <div class="col-md-4 service-box">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="material-symbols-outlined">
+                  captive_portal
+                  </span>
+                <h4>Grupo A</h4>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis assumenda, enim, hic aspernatur impedit recusandae rerum sint libero totam eius a laudantium quaerat vero ducimus, molestias tenetur reprehenderit ipsam officia!</p>
+              </div>
+              <div class="col-md-4 service-box">
+                <i class="fas fa-shopping-cart"></i>
+                <h4>Grupo B</h4>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis assumenda, enim, hic aspernatur impedit recusandae rerum sint libero totam eius a laudantium quaerat vero ducimus, molestias tenetur reprehenderit ipsam officia!</p>
+              </div>
+              <div class="col-md-4 service-box">
+                <i class="fas fa-shopping-cart"></i>
+                <h4>Grupo C</h4>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis assumenda, enim, hic aspernatur impedit recusandae rerum sint libero totam eius a laudantium quaerat vero ducimus, molestias tenetur reprehenderit ipsam officia!</p>
+              </div>
+              <div class="col-md-4 service-box">
+                <i class="fas fa-band-aid"></i>
+                <h4>Grupo D</h4>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis assumenda, enim, hic aspernatur impedit recusandae rerum sint libero totam eius a laudantium quaerat vero ducimus, molestias tenetur reprehenderit ipsam officia!</p>
+              </div>
+              <div class="col-md-4 service-box">
+                <i class="fas fa-shopping-cart"></i>
+                <h4>Grupo E</h4>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis assumenda, enim, hic aspernatur impedit recusandae rerum sint libero totam eius a laudantium quaerat vero ducimus, molestias tenetur reprehenderit ipsam officia!</p>
+              </div>
+              <div class="col-md-4 service-box">
+                <i class="fas fa-shopping-cart"></i>
+                <h4>Grupo F</h4>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis assumenda, enim, hic aspernatur impedit recusandae rerum sint libero totam eius a laudantium quaerat vero ducimus, molestias tenetur reprehenderit ipsam officia!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    </body>
+
+
+    <%- include('includes/footer'); %>
