@@ -9,6 +9,7 @@ const loginController = require('./src/controllers/loginController');
 const cadastroController = require('./src/controllers/cadastroController');
 const postagemController = require('./src/controllers/postagemController');
 const comentarioController = require('./src/controllers/comentarioController');
+const grupoController = require('./src/controllers/grupoController');
 
 const { loginRequire, grupoRequire, comentarioNotNull, checkCsrfError, csrfMiddleware, csrfProtection } = require('./src/middlewares/middleware');
 
@@ -43,5 +44,9 @@ route.get('/postagem/comentario/:postagemId/:comentarioId', csrf(), checkCsrfErr
 
 // Rota curtidas
 route.post('/curtida/:postagemId/:user', csrf(), checkCsrfError, csrfMiddleware, loginRequire, postagemController.curtirPostagem);
+
+// Rota dos grupos
+route.post('/grupo', csrf(), checkCsrfError, csrfMiddleware, loginRequire, grupoController.descricaoGrupo);
+route.post('/participantes', csrf(), checkCsrfError, csrfMiddleware, loginRequire, grupoController.participantes);
 
 module.exports = route;

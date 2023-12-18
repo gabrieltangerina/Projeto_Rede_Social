@@ -188,39 +188,19 @@
                   Sobre os grupos
                 </h3>
               </div>
-              <div class="col-md-4 service-box">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="material-symbols-outlined">
-                  captive_portal
-                  </span>
-                <h4>Grupo A</h4>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis assumenda, enim, hic aspernatur impedit recusandae rerum sint libero totam eius a laudantium quaerat vero ducimus, molestias tenetur reprehenderit ipsam officia!</p>
-              </div>
-              <div class="col-md-4 service-box">
-                <i class="fas fa-shopping-cart"></i>
-                <h4>Grupo B</h4>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis assumenda, enim, hic aspernatur impedit recusandae rerum sint libero totam eius a laudantium quaerat vero ducimus, molestias tenetur reprehenderit ipsam officia!</p>
-              </div>
-              <div class="col-md-4 service-box">
-                <i class="fas fa-shopping-cart"></i>
-                <h4>Grupo C</h4>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis assumenda, enim, hic aspernatur impedit recusandae rerum sint libero totam eius a laudantium quaerat vero ducimus, molestias tenetur reprehenderit ipsam officia!</p>
-              </div>
-              <div class="col-md-4 service-box">
-                <i class="fas fa-band-aid"></i>
-                <h4>Grupo D</h4>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis assumenda, enim, hic aspernatur impedit recusandae rerum sint libero totam eius a laudantium quaerat vero ducimus, molestias tenetur reprehenderit ipsam officia!</p>
-              </div>
-              <div class="col-md-4 service-box">
-                <i class="fas fa-shopping-cart"></i>
-                <h4>Grupo E</h4>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis assumenda, enim, hic aspernatur impedit recusandae rerum sint libero totam eius a laudantium quaerat vero ducimus, molestias tenetur reprehenderit ipsam officia!</p>
-              </div>
-              <div class="col-md-4 service-box">
-                <i class="fas fa-shopping-cart"></i>
-                <h4>Grupo F</h4>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis assumenda, enim, hic aspernatur impedit recusandae rerum sint libero totam eius a laudantium quaerat vero ducimus, molestias tenetur reprehenderit ipsam officia!</p>
-              </div>
+              <% grupos.forEach((grupo) => { %>
+                <div class="col-md-4 service-box">
+                  <i class="fas fa-shopping-cart"></i>
+                  <span class="material-symbols-outlined">
+                    captive_portal
+                    </span>
+                  <h4><%= grupo.grupo %></h4>
+                  <p><%= grupo.descricao %></p>
+                  <% grupo.participantes.forEach((participante) => { %>
+                    <h5><%= participante %></h5>
+                  <% }) %>
+                </div>
+              <% }) %>
             </div>
           </div>
         </div>

@@ -1,10 +1,15 @@
 const { async } = require("regenerator-runtime");
 const { Postagem } = require('../models/PostagemModel');
 const { comentarioModel } = require('../models/ComentarioModel');
+const { grupoModel } = require('../models/GrupoModel');
 
 exports.paginaInicial = async function (req, res) {
   try {
     const user = req.session.user;
+
+    // Pegando os dados dos grupos
+    const grupos = await grupoModel.find({})
+    console.log(grupos);
 
     let todasPostagens;
 
@@ -15,9 +20,9 @@ exports.paginaInicial = async function (req, res) {
       const jaCurtiu = todasPostagens.map(postagem => {
         return postagem.curtidas.nomes.some(nome => nome === `${user.nome} ${user.sobrenome}`);
       });
-      res.render("index", { user, todasPostagens, comentarios, jaCurtiu });
+      res.render("index", { user, todasPostagens, comentarios, jaCurtiu, grupos });
     } else {
-      res.render("index", { todasPostagens, comentarios });
+      res.render("index", { todasPostagens, comentarios, grupos });
     }
 
     return;
