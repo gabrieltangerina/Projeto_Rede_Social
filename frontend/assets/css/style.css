@@ -615,11 +615,11 @@ header, .navbar{
 #participantes-container {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px; /* Espaçamento opcional entre os participantes */
+  margin-bottom: 10px; 
 }
 
 label, input {
-  margin-bottom: 5px; /* Espaçamento entre as etiquetas e os inputs */
+  margin-bottom: 5px;
 }
 
 

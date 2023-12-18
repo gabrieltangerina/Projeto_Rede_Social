@@ -23,6 +23,10 @@ cadastro.inicializa();
 document.addEventListener('DOMContentLoaded', toggleDescricao());
 document.addEventListener('DOMContentLoaded', toggleComentario());
 document.addEventListener('DOMContentLoaded', curtirPostagem());
+try{
+    document.addEventListener('DOMContentLoaded', filtrarGrupos());
+}catch(e){
+    console.log("Não está na home por isso nao renderiza");
+}
 document.addEventListener('DOMContentLoaded', adicionarParticipante());
-document.addEventListener('DOMContentLoaded', filtrarGrupos());
 

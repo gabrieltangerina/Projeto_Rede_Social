@@ -13,9 +13,6 @@ const grupoController = require('./src/controllers/grupoController');
 
 const { loginRequire, grupoRequire, comentarioNotNull, checkCsrfError, csrfMiddleware, csrfProtection } = require('./src/middlewares/middleware');
 
-// Rota index
-route.get('/index', csrf(), checkCsrfError, csrfMiddleware, homeController.paginaIndex);
-
 // Rotas da home
 route.get('/', csrf(), checkCsrfError, csrfMiddleware, homeController.paginaInicial);
 route.get('/filtro/:url', csrf(), checkCsrfError, csrfMiddleware, homeController.filtrarPostagem);

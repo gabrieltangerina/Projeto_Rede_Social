@@ -2,12 +2,12 @@
   <%- include('includes/nav'); %>
 
     <%- include('includes/messages') %>
-      <div class="container container-grupos">
-        <div class="formulario-postagem col-md-6">
+
+      <div class="container container-grupos d-flex flex-column flex-md-row align-items-center justify-content-center">
+        <div class="formulario-postagem col-md-6 mb-4 ms-md-4">
           <form action="/postagem/postar" method="post" class="form-postagem" enctype="multipart/form-data">
             <input type="hidden" name="autor" value="<%= user.nome %> <%= user.sobrenome %>">
             <input type="hidden" name="grupo" value="<%= user.grupo %>">
-
             <div class="form-group row">
               <label for="inputPassword" class="col-sm-2 col-form-label">Título</label>
               <div class="col-sm-10 mb-4">
@@ -18,7 +18,7 @@
                 <input type="file" name="files" multiple class="mb-4">
               </div>
             </div>
-            <div class="form-group row mb-4">
+            <div class="form-group row mb-4 ms-md-4">
               <label for="inputPassword" class="col-sm-2 col-form-label">Descrição</label>
               <div class="col-sm-10 mv-4">
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
@@ -30,7 +30,7 @@
             </button>
           </form>
         </div>
-        <div class="formulario-postagem col-md-6">
+        <div class="formulario-postagem col-md-6 mb-4 ms-md-4">
           <h3 class="d-flex align-items-center justify-content-center">
             <%= user.grupo %>
           </h3>
@@ -49,26 +49,25 @@
             </button>
           </form>
         </div>
-        <div class="formulario-postagem col-md-6">
+        <div class="formulario-postagem col-md-6 mb-4 ms-md-4">
           <h3 class="d-flex align-items-center justify-content-center">
             Participantes
           </h3>
           <form action="/participantes" method="post">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input type="hidden" name="grupo" value="<%= user.grupo %>">
-            
+
             <div id="participantes-container">
               <label for="participante1">Participante 1:</label>
               <input type="text" name="participantes[]" required>
             </div>
-            
+
             <button type="button" id="botaoAdicionarParticipante">Adicionar Participante</button>
-            
+
             <button type="submit">Enviar</button>
           </form>
         </div>
       </div>
-
 
       <h1 class="titulo-introducao" style="margin-top: 15vh ;">Postagens do grupo <%= user.grupo %>
       </h1>
@@ -140,11 +139,6 @@
               </div>
               <p class="card-text"><small class="text-muted">Atualizados 3 minutos atrás</small></p>
               <div class="botoes-config">
-                <div class="botao-editar">
-                  <a href="/postagem/editar/<%= postagem._id %>">
-                    <button type="button" class="btn btn-info">Editar</button>
-                  </a>
-                </div>
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   Excluir postagem
                 </button>

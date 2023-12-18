@@ -9,7 +9,6 @@ exports.paginaInicial = async function (req, res) {
 
     // Pegando os dados dos grupos
     const grupos = await grupoModel.find({})
-    console.log(grupos);
 
     let todasPostagens;
 
@@ -61,19 +60,16 @@ exports.filtrarPostagem = async function (req, res) {
   }
 
   const comentarios = await comentarioModel.find({});
+  const grupos = await grupoModel.find({})
 
   if (user) {
     const jaCurtiu = todasPostagens.map(postagem => {
       return postagem.curtidas.nomes.some(nome => nome === `${user.nome} ${user.sobrenome}`);
     });
-    res.render("index", { user, todasPostagens, comentarios, jaCurtiu });
+    res.render("index", { user, todasPostagens, comentarios, jaCurtiu, grupos });
   } else {
-    res.render("index", { user, todasPostagens, comentarios });
+    res.render("index", { user, todasPostagens, comentarios, grupos });
   }
 
   return;
-}
-
-exports.paginaIndex = function (req, res) {
-  res.render('inicio');
 }
