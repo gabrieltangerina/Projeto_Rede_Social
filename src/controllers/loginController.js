@@ -20,7 +20,7 @@ exports.logar = async function (req, res) {
     }
 
     req.flash('success', "Bem vindo");
-    delete req.session.formData;
+    delete req.session.formData;''
     req.session.user = login.user;
     req.session.save(() => res.redirect('/'));
     return;

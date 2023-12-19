@@ -21,7 +21,7 @@ exports.descricaoGrupo = async function (req, res) {
             // Verificar se a criação foi bem-sucedida antes de continuar
             if (novoGrupo) {
                 // Pode fazer algo aqui se necessário
-                console.log("Deu certo");
+                // console.log("Deu certo");
             } else {
                 // Lida com a falha na criação do grupo
                 console.error('Erro ao criar um novo grupo.');
@@ -60,7 +60,7 @@ exports.participantes = async function (req, res) {
             // Verificar se a criação foi bem-sucedida antes de continuar
             if (novoGrupo) {
                 // Pode fazer algo aqui se necessário
-                console.log("Deu certo");
+                // console.log("Deu certo");
             } else {
                 // Lida com a falha na criação do grupo
                 console.error('Erro ao criar um novo grupo.');

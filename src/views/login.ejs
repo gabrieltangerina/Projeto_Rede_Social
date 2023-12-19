@@ -4,10 +4,7 @@
 <section class="div-conteudo">
   <div class="div-login">
     
-    <div id="id-flash-messages" class="flash-messages">
-      <%- include('includes/messages') %>
-    </div>
-
+    
     <div class="formulario">
       <form method="post" action="/login/login" class="form-login">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -22,11 +19,14 @@
           </div>
         </div>
         <button class="btn btn-primary btn-completo mb-3" type="submit">Logar</button>
-    </form>
-    <a href="/cadastro" style="text-decoration: none;">
-      <button type="button" class="btn btn-secondary btn-completo">Criar conta</button>
-    </a>  
+      </form>
+      <a href="/cadastro" style="text-decoration: none;">
+        <button type="button" class="btn btn-secondary btn-completo">Criar conta</button>
+      </a>  
     </div>
+  </div>
+  <div id="id-flash-messages" class="flash-messages">
+    <%- include('includes/messages') %>
   </div>
 </section>
 
